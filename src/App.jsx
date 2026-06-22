@@ -7,6 +7,7 @@ import Demographics from './components/Demographics'
 import GoogleAds from './components/GoogleAds'
 import AskAI from './components/AskAI'
 import Appfront from './components/Appfront'
+import PasswordGate from './components/PasswordGate'
 import { metaAdsRaw, igOrganicRaw, tiktokAdsRaw, lastRefreshed } from './data/index'
 
 const DATA_MIN = '2026-04-01'
@@ -20,7 +21,6 @@ const TABS = [
   { id: 'demographics',  label: 'Demographics' },
   { id: 'appfront',      label: 'Appfront' },
   { id: 'google',        label: 'Google Ads' },
-  { id: 'askai',         label: '✦ Ask AI' },
 ]
 
 function fmtDateLabel(d) {
@@ -49,7 +49,10 @@ export default function App() {
   const dateLabel = `${fmtDateLabel(startDate)} – ${fmtDateLabel(endDate)}, 2026`
   const isFullRange = startDate === DATA_MIN && endDate === DATA_MAX
 
+  const [aiOpen, setAiOpen] = useState(false)
+
   return (
+    <PasswordGate>
     <div className="min-h-screen bg-gray-950 text-gray-100">
       {/* Header */}
       <header className="border-b border-gray-800 bg-gray-900 px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
@@ -145,8 +148,36 @@ export default function App() {
         {tab === 'google'       && <GoogleAds />}
         {tab === 'demographics' && <Demographics />}
         {tab === 'appfront'     && <Appfront startDate={startDate} endDate={endDate} />}
-        {tab === 'askai'        && <AskAI meta={metaFiltered} ig={igFiltered} tiktok={tiktokFiltered} />}
       </main>
+
+      {/* Floating AI bubble */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+        {aiOpen && (
+          <div className="w-[370px] max-h-[600px] bg-gray-900 border border-gray-700 rounded-2xl shadow-2xl shadow-black/60 flex flex-col overflow-hidden">
+            {/* Chat header */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-800 bg-gray-900">
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs">✦</div>
+                <span className="text-sm font-semibold text-white">Ask AI</span>
+                <span className="text-xs text-gray-500">· Gemini</span>
+              </div>
+              <button onClick={() => setAiOpen(false)} className="text-gray-500 hover:text-white transition-colors text-lg leading-none">×</button>
+            </div>
+            <div className="flex-1 overflow-hidden">
+              <AskAI meta={metaFiltered} ig={igFiltered} tiktok={tiktokFiltered} compact />
+            </div>
+          </div>
+        )}
+        {/* Trigger button */}
+        <button
+          onClick={() => setAiOpen(o => !o)}
+          className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 hover:from-blue-400 hover:to-purple-500 shadow-xl shadow-purple-900/40 flex items-center justify-center text-2xl transition-all hover:scale-105 active:scale-95"
+          title="Ask AI"
+        >
+          {aiOpen ? '×' : '✦'}
+        </button>
+      </div>
     </div>
+    </PasswordGate>
   )
 }

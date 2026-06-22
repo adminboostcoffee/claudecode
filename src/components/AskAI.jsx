@@ -126,7 +126,7 @@ function TypingIndicator() {
   )
 }
 
-export default function AskAI({ meta, ig, tiktok }) {
+export default function AskAI({ meta, ig, tiktok, compact = false }) {
   const [messages, setMessages]   = useState([])
   const [input, setInput]         = useState('')
   const [loading, setLoading]     = useState(false)
@@ -164,21 +164,21 @@ export default function AskAI({ meta, ig, tiktok }) {
   const isEmpty = messages.length === 0
 
   return (
-    <div className="flex flex-col h-[calc(100vh-180px)] max-w-3xl mx-auto">
+    <div className={`flex flex-col ${compact ? 'h-[520px]' : 'h-[calc(100vh-180px)] max-w-3xl mx-auto'}`}>
 
       {/* Welcome screen */}
       {isEmpty && (
         <div className="flex-1 flex flex-col items-center justify-center gap-8 pb-6">
           {/* Gemini-style gradient orb */}
           <div className="relative">
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 flex items-center justify-center text-4xl shadow-2xl shadow-purple-500/30">
+            <div className={`${compact ? 'w-12 h-12 text-2xl' : 'w-20 h-20 text-4xl'} rounded-full bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 flex items-center justify-center shadow-2xl shadow-purple-500/30`}>
               ✦
             </div>
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 blur-xl opacity-30 scale-150" />
           </div>
 
           <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold text-white">Ask me anything</h2>
+            <h2 className={`${compact ? 'text-lg' : 'text-2xl'} font-bold text-white`}>Ask me anything</h2>
             <p className="text-sm text-gray-400 max-w-sm">
               Powered by Google Gemini · I have access to all your Boost Coffee dashboard data and can answer questions about your campaigns, spend, reach, and more.
             </p>
@@ -187,7 +187,7 @@ export default function AskAI({ meta, ig, tiktok }) {
           {/* Suggested questions */}
           <div className="w-full space-y-2">
             <p className="text-xs text-gray-500 text-center uppercase tracking-wider mb-3">Try asking</p>
-            {SUGGESTED.slice(0, 3).map((q, i) => (
+            {SUGGESTED.slice(0, compact ? 2 : 3).map((q, i) => (
               <button
                 key={i}
                 onClick={() => ask(q)}
