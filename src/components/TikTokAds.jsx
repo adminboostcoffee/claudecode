@@ -30,6 +30,8 @@ function aggregateRows(rows) {
 
 export default function TikTokAds({ data }) {
   const [expandedCampaigns, setExpandedCampaigns] = useState({})
+  const [sortField, setSortField] = useState('spend')
+  const [sortAsc, setSortAsc] = useState(false)
   const [statusFilter, setStatusFilter] = useState('all')
 
   const filteredData = useMemo(() => {
@@ -48,8 +50,11 @@ export default function TikTokAds({ data }) {
         name: adName, ...aggregateRows(adRows),
       }))
       return { name, ...aggregateRows(rows), ads }
-    }).sort((a, b) => b.spend - a.spend)
-  }, [filteredData])
+    }).sort((a, b) => {
+      if (sortField === 'name') return sortAsc ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
+      return sortAsc ? a[sortField] - b[sortField] : b[sortField] - a[sortField]
+    })
+  }, [filteredData, sortField, sortAsc])
 
   const dailyData = useMemo(() => {
     const byDate = {}
@@ -117,8 +122,28 @@ export default function TikTokAds({ data }) {
 
       {/* Campaign → Ad drilldown table */}
       <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-800">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-800 flex-wrap gap-2">
           <h3 className="font-semibold text-sm">Campaigns → Ads</h3>
+          <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-center gap-2 text-xs text-gray-400">
+              Sort by:
+              {['impressions', 'spend', 'reach', 'name'].map(m => (
+                <button
+                  key={m}
+                  onClick={() => setSortField(m)}
+                  className={`px-2 py-0.5 rounded capitalize ${sortField === m ? 'bg-orange-500 text-white' : 'hover:text-gray-200'}`}
+                >
+                  {m === 'name' ? 'A–Z' : m}
+                </button>
+              ))}
+              <button
+                onClick={() => setSortAsc(a => !a)}
+                className="flex items-center gap-1 px-2 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white transition-colors"
+              >
+                <span className="text-[10px] leading-none">{sortAsc ? '↑' : '↓'}</span>
+                <span>{sortAsc ? 'Asc' : 'Desc'}</span>
+              </button>
+            </div>
           <div className="flex items-center bg-gray-800 rounded-lg p-0.5 text-xs font-medium">
             {[
               { id: 'all',      label: 'All' },
@@ -139,6 +164,7 @@ export default function TikTokAds({ data }) {
                 {f.label}
               </button>
             ))}
+          </div>
           </div>
         </div>
         <div className="overflow-x-auto">
