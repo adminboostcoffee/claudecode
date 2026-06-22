@@ -5,7 +5,7 @@ import {
 } from 'recharts'
 
 // ─── Cloudflare Worker URL (update after deploying worker/index.js to Cloudflare) ───
-const ENDPOINT = 'https://boost-appfront.YOUR_SUBDOMAIN.workers.dev'
+const ENDPOINT = 'https://boost-appfront.aubrianna.workers.dev'
 
 const GQL_QUERY = `
 query analyticsBoxes(
