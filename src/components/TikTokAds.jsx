@@ -30,11 +30,16 @@ function aggregateRows(rows) {
 
 export default function TikTokAds({ data }) {
   const [expandedCampaigns, setExpandedCampaigns] = useState({})
+  const [activeOnly, setActiveOnly] = useState(false)
 
-  const totals = aggregateRows(data)
+  const filteredData = useMemo(() =>
+    activeOnly ? data.filter(r => r.status === 'ACTIVE') : data
+  , [data, activeOnly])
+
+  const totals = aggregateRows(filteredData)
 
   const campaigns = useMemo(() => {
-    const byCampaign = groupBy(data, 'campaign_name')
+    const byCampaign = groupBy(filteredData, 'campaign_name')
     return Object.entries(byCampaign).map(([name, rows]) => {
       const byAd = groupBy(rows, 'ad_name')
       const ads = Object.entries(byAd).map(([adName, adRows]) => ({
@@ -42,11 +47,11 @@ export default function TikTokAds({ data }) {
       }))
       return { name, ...aggregateRows(rows), ads }
     }).sort((a, b) => b.spend - a.spend)
-  }, [data])
+  }, [filteredData])
 
   const dailyData = useMemo(() => {
     const byDate = {}
-    data.forEach(r => {
+    filteredData.forEach(r => {
       if (!byDate[r.date]) byDate[r.date] = { date: r.date.slice(5), impressions: 0, spend: 0, video_plays: 0 }
       byDate[r.date].impressions  += r.impressions
       byDate[r.date].spend        += r.spend
@@ -56,7 +61,7 @@ export default function TikTokAds({ data }) {
   }, [data])
 
   const adChartData = useMemo(() => {
-    const byAd = groupBy(data, 'ad_name')
+    const byAd = groupBy(filteredData, 'ad_name')
     return Object.entries(byAd).map(([name, rows]) => ({
       name: name.length > 25 ? name.slice(0, 25) + '…' : name,
       impressions: sumField(rows, 'impressions'),
@@ -110,8 +115,14 @@ export default function TikTokAds({ data }) {
 
       {/* Campaign → Ad drilldown table */}
       <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
-        <div className="px-4 py-3 border-b border-gray-800">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-800">
           <h3 className="font-semibold text-sm">Campaigns → Ads</h3>
+          <button
+            onClick={() => setActiveOnly(v => !v)}
+            className={`text-xs px-3 py-0.5 rounded-full border transition-colors ${activeOnly ? 'bg-green-600 border-green-500 text-white' : 'border-gray-600 text-gray-400 hover:border-gray-400 hover:text-gray-200'}`}
+          >
+            {activeOnly ? '● Active Only' : 'All Campaigns'}
+          </button>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">

@@ -5,7 +5,7 @@ import InstagramOrganic from './components/InstagramOrganic'
 import TikTokAds from './components/TikTokAds'
 import Demographics from './components/Demographics'
 import GoogleAds from './components/GoogleAds'
-import { metaAdsRaw, igOrganicRaw, tiktokAdsRaw, lastRefreshed } from './data/index'
+import { metaAdsRaw, igOrganicRaw, tiktokAdsRaw, lastRefreshed, dataDateRange } from './data/index'
 
 const TABS = [
   { id: 'overview',      label: 'Overview' },
@@ -27,7 +27,7 @@ export default function App() {
           <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center font-bold text-white text-sm">B</div>
           <div>
             <h1 className="text-lg font-semibold text-white">Boost Coffee</h1>
-            <p className="text-xs text-gray-400">Social Media Performance · Last 30 Days</p>
+            <p className="text-xs text-gray-400">Social Media Performance · {dataDateRange}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">

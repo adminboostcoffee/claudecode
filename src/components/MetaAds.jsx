@@ -66,9 +66,14 @@ export default function MetaAds({ data }) {
   const [expandedCampaigns, setExpandedCampaigns] = useState({})
   const [expandedAdsets, setExpandedAdsets] = useState({})
   const [sortMetric, setSortMetric] = useState('spend')
+  const [activeOnly, setActiveOnly] = useState(false)
+
+  const filteredData = useMemo(() =>
+    activeOnly ? data.filter(r => r.status === 'ACTIVE') : data
+  , [data, activeOnly])
 
   const campaigns = useMemo(() => {
-    const byCampaign = groupBy(data, 'campaign')
+    const byCampaign = groupBy(filteredData, 'campaign')
     return Object.entries(byCampaign).map(([name, rows]) => {
       const byAdset = groupBy(rows, 'adset_name')
       const adsets = Object.entries(byAdset).map(([aName, aRows]) => {
@@ -80,12 +85,12 @@ export default function MetaAds({ data }) {
       })
       return { name, ...aggregateRows(rows), adsets }
     }).sort((a, b) => b[sortMetric] - a[sortMetric])
-  }, [data, sortMetric])
+  }, [filteredData, sortMetric])
 
   // Daily trend
   const dailyData = useMemo(() => {
     const byDate = {}
-    data.forEach(r => {
+    filteredData.forEach(r => {
       if (!byDate[r.date]) byDate[r.date] = { date: r.date.slice(5), impressions: 0, spend: 0 }
       byDate[r.date].impressions += r.impressions
       byDate[r.date].spend += r.spend
@@ -96,7 +101,7 @@ export default function MetaAds({ data }) {
   const toggleCampaign = name => setExpandedCampaigns(p => ({ ...p, [name]: !p[name] }))
   const toggleAdset    = key  => setExpandedAdsets(p => ({ ...p, [key]: !p[key] }))
 
-  const totals = aggregateRows(data)
+  const totals = aggregateRows(filteredData)
 
   return (
     <div className="space-y-6">
@@ -139,17 +144,25 @@ export default function MetaAds({ data }) {
       <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-800">
           <h3 className="font-semibold text-sm">Campaigns → Ad Sets → Ads</h3>
-          <div className="flex gap-2 text-xs text-gray-400">
-            Sort by:
-            {['impressions', 'spend', 'reach', 'clicks'].map(m => (
-              <button
-                key={m}
-                onClick={() => setSortMetric(m)}
-                className={`px-2 py-0.5 rounded ${sortMetric === m ? 'bg-orange-500 text-white' : 'hover:text-gray-200'}`}
-              >
-                {m}
-              </button>
-            ))}
+          <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex gap-2 text-xs text-gray-400">
+              Sort by:
+              {['impressions', 'spend', 'reach', 'clicks'].map(m => (
+                <button
+                  key={m}
+                  onClick={() => setSortMetric(m)}
+                  className={`px-2 py-0.5 rounded ${sortMetric === m ? 'bg-orange-500 text-white' : 'hover:text-gray-200'}`}
+                >
+                  {m}
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => setActiveOnly(v => !v)}
+              className={`text-xs px-3 py-0.5 rounded-full border transition-colors ${activeOnly ? 'bg-green-600 border-green-500 text-white' : 'border-gray-600 text-gray-400 hover:border-gray-400 hover:text-gray-200'}`}
+            >
+              {activeOnly ? '● Active Only' : 'All Campaigns'}
+            </button>
           </div>
         </div>
         <div className="overflow-x-auto">
