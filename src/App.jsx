@@ -5,6 +5,7 @@ import InstagramOrganic from './components/InstagramOrganic'
 import TikTokAds from './components/TikTokAds'
 import Demographics from './components/Demographics'
 import GoogleAds from './components/GoogleAds'
+import AskAI from './components/AskAI'
 import Appfront from './components/Appfront'
 import { metaAdsRaw, igOrganicRaw, tiktokAdsRaw, lastRefreshed } from './data/index'
 
@@ -19,6 +20,7 @@ const TABS = [
   { id: 'demographics',  label: 'Demographics' },
   { id: 'appfront',      label: 'Appfront' },
   { id: 'google',        label: 'Google Ads' },
+  { id: 'askai',         label: '✦ Ask AI' },
 ]
 
 function fmtDateLabel(d) {
@@ -143,6 +145,7 @@ export default function App() {
         {tab === 'google'       && <GoogleAds />}
         {tab === 'demographics' && <Demographics />}
         {tab === 'appfront'     && <Appfront startDate={startDate} endDate={endDate} />}
+        {tab === 'askai'        && <AskAI meta={metaFiltered} ig={igFiltered} tiktok={tiktokFiltered} />}
       </main>
     </div>
   )
