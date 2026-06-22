@@ -144,18 +144,31 @@ export default function Appfront({ startDate = '2026-06-01', endDate = '2026-06-
   }, 0)
 
   const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-  const fmtMonth = (dateStr) => {
-    if (!dateStr) return null
-    const parts = dateStr.split('-')
-    if (parts.length < 2) return null
-    const m = parseInt(parts[1]) - 1
-    if (m < 0 || m > 11) return null
-    return `${MONTHS[m]} ${parts[0]}`
-  }
 
-  const chartData = (data?.purchaseTimeseries || [])
-    .map(d => ({ date: fmtMonth(d.date), sales: parseFloat(d.spentAmount?.toFixed(2) || 0), orders: d.count || 0 }))
-    .filter(d => d.date !== null)
+  // Group timeseries by YYYY-MM, filter to selected date range, only keep months with data
+  const chartData = (() => {
+    const byMonth = {}
+    ;(data?.purchaseTimeseries || []).forEach(d => {
+      if (!d.date) return
+      // Normalize: take first 7 chars "YYYY-MM" regardless of full date format
+      const key = String(d.date).slice(0, 7)
+      if (!/^\d{4}-\d{2}$/.test(key)) return
+      // Filter to selected date range (compare month key to start/end months)
+      const startKey = startDate.slice(0, 7)
+      const endKey   = endDate.slice(0, 7)
+      if (key < startKey || key > endKey) return
+      if (!byMonth[key]) byMonth[key] = { sales: 0, orders: 0 }
+      byMonth[key].sales  += d.spentAmount || 0
+      byMonth[key].orders += d.count || 0
+    })
+    return Object.entries(byMonth)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .filter(([, v]) => v.sales > 0 || v.orders > 0)
+      .map(([key, v]) => {
+        const [year, month] = key.split('-')
+        return { date: `${MONTHS[parseInt(month) - 1]} ${year}`, sales: parseFloat(v.sales.toFixed(2)), orders: v.orders }
+      })
+  })()
 
   const topItems = (data?.topItems || []).slice(0, 8)
   const maxItemCount = topItems[0]?.count || 1
@@ -209,10 +222,18 @@ export default function Appfront({ startDate = '2026-06-01', endDate = '2026-06-
             <KpiHero label="Active Members"    value={customers.toLocaleString()} sub="placed at least 1 order"  accent="#f59e0b" />
           </div>
 
-          {/* Monthly sales bar chart — only show when 2+ months */}
-          {chartData.length >= 2 && (
+          {/* Monthly sales bar chart — only show when there's data */}
+          {chartData.length >= 1 && (
             <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-              <h3 className="font-semibold text-sm text-gray-200 mb-4">Monthly Sales & Order Volume</h3>
+              <div className="flex items-center gap-2 mb-4">
+                <h3 className="font-semibold text-sm text-gray-200">Sales & Order Volume</h3>
+                <div className="relative group">
+                  <div className="w-4 h-4 rounded-full bg-gray-700 border border-gray-600 flex items-center justify-center text-[10px] text-gray-400 cursor-default select-none">i</div>
+                  <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-56 bg-gray-800 border border-gray-700 rounded-xl p-3 text-xs text-gray-300 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-xl">
+                    Appfront provides monthly totals only — data cannot be broken down by week or day at this time.
+                  </div>
+                </div>
+              </div>
               <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 0 }} barGap={4}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
