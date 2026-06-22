@@ -4,9 +4,8 @@ import {
   ResponsiveContainer, CartesianGrid,
 } from 'recharts'
 
-// ─── Auth token (update this when it expires — copy from DevTools > Network > graphql > Headers > Authorization) ───
-const TOKEN = 'NjhjYzZiNzEwNmY0NTEzMWU1NjlxMDgyOjVhMjQwNTRjLWZiMDYtNDI1OS1iNzkyLWQ5Y2I0ZmMyZWFiYg=='
-const ENDPOINT = 'https://gqlapi.appfront.ai/graphql'
+// ─── Cloudflare Worker URL (update after deploying worker/index.js to Cloudflare) ───
+const ENDPOINT = 'https://boost-appfront.YOUR_SUBDOMAIN.workers.dev'
 
 const GQL_QUERY = `
 query analyticsBoxes(
@@ -115,7 +114,6 @@ export default function Appfront() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': TOKEN,
         },
         body: JSON.stringify({
           operationName: 'analyticsBoxes',
