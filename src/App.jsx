@@ -51,13 +51,19 @@ export default function App() {
     <div className="min-h-screen bg-gray-950 text-gray-100">
       {/* Header */}
       <header className="border-b border-gray-800 bg-gray-900 px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
-        <div className="flex items-center gap-3">
-          {/* Logo placeholder — swap src when logo file is ready */}
-          <div className="w-9 h-9 rounded-full bg-orange-500 flex items-center justify-center font-bold text-white text-sm flex-shrink-0">B</div>
-          <div>
-            <h1 className="text-lg font-semibold text-white leading-tight">Boost Coffee</h1>
-            <p className="text-xs text-gray-400">Social Media Performance</p>
+        <div className="flex items-center gap-3 flex-shrink-0">
+          {/* Boost Coffee + Energy logo */}
+          <div className="flex flex-col leading-none select-none">
+            <div className="flex items-center gap-0" style={{ fontWeight: 900, fontSize: '1.35rem', letterSpacing: '-0.01em' }}>
+              <span style={{ color: '#F5C200' }}>⚡</span>
+              <span style={{ color: '#1EC8C8', fontFamily: 'system-ui, sans-serif' }}>BOOST</span>
+            </div>
+            <div style={{ color: '#F5C200', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.12em', fontFamily: 'system-ui, sans-serif' }}>
+              COFFEE + ENERGY
+            </div>
           </div>
+          <div className="w-px h-8 bg-gray-700 flex-shrink-0" />
+          <p className="text-xs text-gray-400 leading-tight">Social Media<br/>Performance</p>
         </div>
 
         {/* Date range picker — prominent, always visible */}
