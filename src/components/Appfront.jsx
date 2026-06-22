@@ -30,18 +30,20 @@ query analyticsBoxes(
     registeredOnChannel: $registeredOnChannel
     lastSeenDate: $lastSeenDate
   ) {
-    total { _id spentAmount netSpentAmount visitCount userCount }
+    total
     purchaseTimeseries {
       date spentAmount netSpentAmount count
       branchesBreakdown { couponRedeemings branchId servingOptionType __typename }
       __typename
     }
-    topItems { name count spentAmount }
-    topSpenders { _id name email phonenumber spentAmount visitCount userId }
-    topVisitors { _id name email phonenumber spentAmount visitCount userId }
-    topAvgSpenders { _id name email phonenumber avgSpentAmount visitCount userId }
-    topUpsales upsellTotals geoLocations
-    visitsBreakdown { _id count }
+    topItems
+    topSpenders
+    topVisitors
+    topAvgSpenders
+    topUpsales
+    upsellTotals
+    geoLocations
+    visitsBreakdown
     csvFiles {
       topVisitors { dataUrl filename size type __typename }
       topSpenders { dataUrl filename size type __typename }
