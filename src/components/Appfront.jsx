@@ -33,7 +33,7 @@ query analyticsBoxes(
     total
     purchaseTimeseries {
       date spentAmount netSpentAmount count
-      branchesBreakdown { couponRedeemings branchId servingOptionType __typename }
+      branchesBreakdown
       __typename
     }
     topItems
