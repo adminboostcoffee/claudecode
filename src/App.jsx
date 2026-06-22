@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Overview from './components/Overview'
 import MetaAds from './components/MetaAds'
 import InstagramOrganic from './components/InstagramOrganic'
@@ -6,7 +6,10 @@ import TikTokAds from './components/TikTokAds'
 import Demographics from './components/Demographics'
 import GoogleAds from './components/GoogleAds'
 import Appfront from './components/Appfront'
-import { metaAdsRaw, igOrganicRaw, tiktokAdsRaw, lastRefreshed, dataDateRange } from './data/index'
+import { metaAdsRaw, igOrganicRaw, tiktokAdsRaw, lastRefreshed } from './data/index'
+
+const DATA_MIN = '2026-04-01'
+const DATA_MAX = '2026-06-21'
 
 const TABS = [
   { id: 'overview',      label: 'Overview' },
@@ -18,25 +21,90 @@ const TABS = [
   { id: 'appfront',      label: 'App (Appfront)' },
 ]
 
+function fmtDateLabel(d) {
+  const [, m, day] = d.split('-')
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  return `${months[parseInt(m) - 1]} ${parseInt(day)}`
+}
+
 export default function App() {
-  const [tab, setTab] = useState('overview')
+  const [tab, setTab]         = useState('overview')
+  const [startDate, setStart] = useState(DATA_MIN)
+  const [endDate,   setEnd]   = useState(DATA_MAX)
+
+  const metaFiltered = useMemo(() =>
+    metaAdsRaw.filter(r => r.date >= startDate && r.date <= endDate)
+  , [startDate, endDate])
+
+  const igFiltered = useMemo(() =>
+    igOrganicRaw.filter(r => r.date >= startDate && r.date <= endDate)
+  , [startDate, endDate])
+
+  const tiktokFiltered = useMemo(() =>
+    tiktokAdsRaw.filter(r => r.date >= startDate && r.date <= endDate)
+  , [startDate, endDate])
+
+  const dateLabel = `${fmtDateLabel(startDate)} – ${fmtDateLabel(endDate)}, 2026`
+  const isFullRange = startDate === DATA_MIN && endDate === DATA_MAX
 
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100">
       {/* Header */}
-      <header className="border-b border-gray-800 bg-gray-900 px-6 py-4 flex items-center justify-between">
+      <header className="border-b border-gray-800 bg-gray-900 px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center font-bold text-white text-sm">B</div>
+          {/* Logo placeholder — swap src when logo file is ready */}
+          <div className="w-9 h-9 rounded-full bg-orange-500 flex items-center justify-center font-bold text-white text-sm flex-shrink-0">B</div>
           <div>
-            <h1 className="text-lg font-semibold text-white">Boost Coffee</h1>
-            <p className="text-xs text-gray-400">Social Media Performance · {dataDateRange}</p>
+            <h1 className="text-lg font-semibold text-white leading-tight">Boost Coffee</h1>
+            <p className="text-xs text-gray-400">Social Media Performance</p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-500 bg-gray-800 px-3 py-1 rounded-full">
+
+        {/* Date range picker — prominent, always visible */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-1 bg-gray-800 border border-gray-700 rounded-xl px-1 py-1">
+            <div className="flex items-center gap-1.5 px-2">
+              <span className="text-xs text-gray-400 whitespace-nowrap">From</span>
+              <input
+                type="date"
+                value={startDate}
+                min={DATA_MIN}
+                max={endDate}
+                onChange={e => setStart(e.target.value)}
+                className="bg-transparent text-sm text-white outline-none cursor-pointer"
+              />
+            </div>
+            <span className="text-gray-600">→</span>
+            <div className="flex items-center gap-1.5 px-2">
+              <span className="text-xs text-gray-400 whitespace-nowrap">To</span>
+              <input
+                type="date"
+                value={endDate}
+                min={startDate}
+                max={DATA_MAX}
+                onChange={e => setEnd(e.target.value)}
+                className="bg-transparent text-sm text-white outline-none cursor-pointer"
+              />
+            </div>
+            {!isFullRange && (
+              <button
+                onClick={() => { setStart(DATA_MIN); setEnd(DATA_MAX) }}
+                className="text-xs text-gray-400 hover:text-white px-2 py-1 rounded-lg hover:bg-gray-700 transition-colors whitespace-nowrap"
+                title="Reset to full range"
+              >
+                ✕ Reset
+              </button>
+            )}
+          </div>
+
+          <div className="flex items-center gap-1.5 bg-orange-500/10 border border-orange-500/30 rounded-xl px-3 py-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse flex-shrink-0" />
+            <span className="text-xs text-orange-300 font-medium whitespace-nowrap">{dateLabel}</span>
+          </div>
+
+          <span className="text-xs text-gray-500 bg-gray-800 px-3 py-1.5 rounded-xl whitespace-nowrap">
             Refreshed {lastRefreshed}
           </span>
-          <span className="text-xs text-gray-500 bg-gray-800 px-3 py-1 rounded-full">Live via Windsor.ai</span>
         </div>
       </header>
 
@@ -62,10 +130,10 @@ export default function App() {
 
       {/* Content */}
       <main className="p-6 max-w-screen-xl mx-auto">
-        {tab === 'overview'     && <Overview meta={metaAdsRaw} ig={igOrganicRaw} tiktok={tiktokAdsRaw} />}
-        {tab === 'meta'         && <MetaAds data={metaAdsRaw} />}
-        {tab === 'ig'           && <InstagramOrganic data={igOrganicRaw} />}
-        {tab === 'tiktok'       && <TikTokAds data={tiktokAdsRaw} />}
+        {tab === 'overview'     && <Overview meta={metaFiltered} ig={igFiltered} tiktok={tiktokFiltered} />}
+        {tab === 'meta'         && <MetaAds data={metaFiltered} />}
+        {tab === 'ig'           && <InstagramOrganic data={igFiltered} />}
+        {tab === 'tiktok'       && <TikTokAds data={tiktokFiltered} />}
         {tab === 'google'       && <GoogleAds />}
         {tab === 'demographics' && <Demographics />}
         {tab === 'appfront'     && <Appfront />}
