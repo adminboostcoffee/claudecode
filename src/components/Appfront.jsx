@@ -143,8 +143,17 @@ export default function Appfront({ startDate = '2026-06-01', endDate = '2026-06-
       s + (Array.isArray(b.couponRedeemings) ? b.couponRedeemings.length : 0), 0)
   }, 0)
 
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  const fmtMonth = (dateStr) => {
+    // dateStr is like "2026-05" or "2026-05-01"
+    const parts = dateStr?.split('-')
+    if (!parts || parts.length < 2) return dateStr
+    const m = parseInt(parts[1]) - 1
+    return `${MONTHS[m]} ${parts[0]}`
+  }
+
   const chartData = (data?.purchaseTimeseries || []).map(d => ({
-    date:   d.date,
+    date:   fmtMonth(d.date),
     sales:  parseFloat(d.spentAmount?.toFixed(2) || 0),
     orders: d.count || 0,
   }))
@@ -203,7 +212,7 @@ export default function Appfront({ startDate = '2026-06-01', endDate = '2026-06-
 
           {/* Daily sales area chart */}
           <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-            <h3 className="font-semibold text-sm text-gray-200 mb-4">Daily Sales & Order Volume</h3>
+            <h3 className="font-semibold text-sm text-gray-200 mb-4">Monthly Sales & Order Volume</h3>
             <ResponsiveContainer width="100%" height={220}>
               <AreaChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
                 <defs>
