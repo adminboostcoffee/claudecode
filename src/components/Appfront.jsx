@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import {
-  AreaChart, Area, BarChart, Bar, XAxis, YAxis, Tooltip,
+  BarChart, Bar, XAxis, YAxis, Tooltip,
   ResponsiveContainer, CartesianGrid,
 } from 'recharts'
 
@@ -145,18 +145,17 @@ export default function Appfront({ startDate = '2026-06-01', endDate = '2026-06-
 
   const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
   const fmtMonth = (dateStr) => {
-    // dateStr is like "2026-05" or "2026-05-01"
-    const parts = dateStr?.split('-')
-    if (!parts || parts.length < 2) return dateStr
+    if (!dateStr) return null
+    const parts = dateStr.split('-')
+    if (parts.length < 2) return null
     const m = parseInt(parts[1]) - 1
+    if (m < 0 || m > 11) return null
     return `${MONTHS[m]} ${parts[0]}`
   }
 
-  const chartData = (data?.purchaseTimeseries || []).map(d => ({
-    date:   fmtMonth(d.date),
-    sales:  parseFloat(d.spentAmount?.toFixed(2) || 0),
-    orders: d.count || 0,
-  }))
+  const chartData = (data?.purchaseTimeseries || [])
+    .map(d => ({ date: fmtMonth(d.date), sales: parseFloat(d.spentAmount?.toFixed(2) || 0), orders: d.count || 0 }))
+    .filter(d => d.date !== null)
 
   const topItems = (data?.topItems || []).slice(0, 8)
   const maxItemCount = topItems[0]?.count || 1
@@ -210,34 +209,26 @@ export default function Appfront({ startDate = '2026-06-01', endDate = '2026-06-
             <KpiHero label="Active Members"    value={customers.toLocaleString()} sub="placed at least 1 order"  accent="#f59e0b" />
           </div>
 
-          {/* Daily sales area chart */}
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-            <h3 className="font-semibold text-sm text-gray-200 mb-4">Monthly Sales & Order Volume</h3>
-            <ResponsiveContainer width="100%" height={220}>
-              <AreaChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="salesGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%"  stopColor="#f97316" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id="ordersGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%"  stopColor="#3b82f6" stopOpacity={0.2} />
-                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
-                <XAxis dataKey="date" tick={{ fontSize: 10, fill: '#6b7280' }} tickLine={false} axisLine={false} />
-                <YAxis yAxisId="left"  tick={{ fontSize: 10, fill: '#6b7280' }} tickLine={false} axisLine={false} tickFormatter={v => '$' + v.toFixed(0)} />
-                <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10, fill: '#6b7280' }} tickLine={false} axisLine={false} />
-                <Tooltip
-                  contentStyle={{ background: '#111827', border: '1px solid #374151', borderRadius: 12, fontSize: 12 }}
-                  formatter={(v, name) => [name === 'Sales' ? fmt$(v) : v, name]}
-                />
-                <Area yAxisId="left"  type="monotone" dataKey="sales"  name="Sales"  stroke="#f97316" strokeWidth={2} fill="url(#salesGrad)" dot={false} />
-                <Area yAxisId="right" type="monotone" dataKey="orders" name="Orders" stroke="#3b82f6" strokeWidth={2} fill="url(#ordersGrad)" dot={false} />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
+          {/* Monthly sales bar chart — only show when 2+ months */}
+          {chartData.length >= 2 && (
+            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+              <h3 className="font-semibold text-sm text-gray-200 mb-4">Monthly Sales & Order Volume</h3>
+              <ResponsiveContainer width="100%" height={220}>
+                <BarChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 0 }} barGap={4}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
+                  <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#6b7280' }} tickLine={false} axisLine={false} />
+                  <YAxis yAxisId="left"  tick={{ fontSize: 10, fill: '#6b7280' }} tickLine={false} axisLine={false} tickFormatter={v => '$' + v.toFixed(0)} />
+                  <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10, fill: '#6b7280' }} tickLine={false} axisLine={false} />
+                  <Tooltip
+                    contentStyle={{ background: '#111827', border: '1px solid #374151', borderRadius: 12, fontSize: 12 }}
+                    formatter={(v, name) => [name === 'Sales' ? fmt$(v) : v, name]}
+                  />
+                  <Bar yAxisId="left"  dataKey="sales"  name="Sales"  fill="#f97316" radius={[4,4,0,0]} />
+                  <Bar yAxisId="right" dataKey="orders" name="Orders" fill="#3b82f6" radius={[4,4,0,0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          )}
 
           {/* Top items + Leaderboard side by side */}
           <div className="grid md:grid-cols-2 gap-4">
