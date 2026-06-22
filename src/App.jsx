@@ -5,6 +5,7 @@ import InstagramOrganic from './components/InstagramOrganic'
 import TikTokAds from './components/TikTokAds'
 import Demographics from './components/Demographics'
 import GoogleAds from './components/GoogleAds'
+import Appfront from './components/Appfront'
 import { metaAdsRaw, igOrganicRaw, tiktokAdsRaw, lastRefreshed, dataDateRange } from './data/index'
 
 const TABS = [
@@ -14,6 +15,7 @@ const TABS = [
   { id: 'tiktok',        label: 'TikTok Ads' },
   { id: 'google',        label: 'Google Ads' },
   { id: 'demographics',  label: 'Demographics' },
+  { id: 'appfront',      label: 'App (Appfront)' },
 ]
 
 export default function App() {
@@ -66,6 +68,7 @@ export default function App() {
         {tab === 'tiktok'       && <TikTokAds data={tiktokAdsRaw} />}
         {tab === 'google'       && <GoogleAds />}
         {tab === 'demographics' && <Demographics />}
+        {tab === 'appfront'     && <Appfront />}
       </main>
     </div>
   )
