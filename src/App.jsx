@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import Overview from './components/Overview'
 import MetaAds from './components/MetaAds'
 import InstagramOrganic from './components/InstagramOrganic'
@@ -50,6 +50,22 @@ export default function App() {
   const isFullRange = startDate === DATA_MIN && endDate === DATA_MAX
 
   const [aiOpen, setAiOpen] = useState(false)
+  const [bubbleY, setBubbleY] = useState(24) // px from bottom
+  const dragRef = useRef(null)
+
+  const startDrag = (e) => {
+    e.preventDefault()
+    const startY = e.clientY
+    const startBottom = bubbleY
+    const onMove = (ev) => {
+      const delta = startY - ev.clientY
+      const next = Math.max(16, Math.min(window.innerHeight - 80, startBottom + delta))
+      setBubbleY(next)
+    }
+    const onUp = () => { window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp) }
+    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mouseup', onUp)
+  }
 
   return (
     <PasswordGate>
@@ -68,7 +84,7 @@ export default function App() {
             </div>
           </div>
           <div className="w-px h-8 bg-gray-700 flex-shrink-0" />
-          <p className="text-xs text-gray-400 leading-tight">Social Media<br/>Performance</p>
+          <p className="text-xs text-gray-400 leading-tight">Performance<br/>Dashboard</p>
         </div>
 
         {/* Date range picker — prominent, always visible */}
@@ -151,7 +167,7 @@ export default function App() {
       </main>
 
       {/* Floating AI bubble */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+      <div className="fixed right-6 z-50 flex flex-col items-end gap-3" style={{ bottom: bubbleY }}>
         {aiOpen && (
           <div className="w-[370px] max-h-[600px] bg-gray-900 border border-gray-700 rounded-2xl shadow-2xl shadow-black/60 flex flex-col overflow-hidden">
             {/* Chat header */}
@@ -168,14 +184,28 @@ export default function App() {
             </div>
           </div>
         )}
-        {/* Trigger button */}
-        <button
-          onClick={() => setAiOpen(o => !o)}
-          className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 hover:from-blue-400 hover:to-purple-500 shadow-xl shadow-purple-900/40 flex items-center justify-center text-2xl transition-all hover:scale-105 active:scale-95"
-          title="Ask AI"
-        >
-          {aiOpen ? '×' : '✦'}
-        </button>
+        {/* Trigger button with drag handle */}
+        <div className="flex items-center gap-1">
+          <div
+            onMouseDown={startDrag}
+            className="w-5 h-10 flex items-center justify-center cursor-ns-resize opacity-40 hover:opacity-80 transition-opacity"
+            title="Drag to reposition"
+          >
+            <div className="flex flex-col gap-0.5">
+              <div className="w-1 h-1 rounded-full bg-gray-400" />
+              <div className="w-1 h-1 rounded-full bg-gray-400" />
+              <div className="w-1 h-1 rounded-full bg-gray-400" />
+              <div className="w-1 h-1 rounded-full bg-gray-400" />
+            </div>
+          </div>
+          <button
+            onClick={() => setAiOpen(o => !o)}
+            className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 hover:from-blue-400 hover:to-purple-500 shadow-xl shadow-purple-900/40 flex items-center justify-center text-2xl transition-all hover:scale-105 active:scale-95"
+            title="Ask AI"
+          >
+            {aiOpen ? '×' : '✦'}
+          </button>
+        </div>
       </div>
     </div>
     </PasswordGate>
