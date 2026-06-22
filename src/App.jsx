@@ -136,7 +136,7 @@ export default function App() {
         {tab === 'tiktok'       && <TikTokAds data={tiktokFiltered} />}
         {tab === 'google'       && <GoogleAds />}
         {tab === 'demographics' && <Demographics />}
-        {tab === 'appfront'     && <Appfront />}
+        {tab === 'appfront'     && <Appfront startDate={startDate} endDate={endDate} />}
       </main>
     </div>
   )

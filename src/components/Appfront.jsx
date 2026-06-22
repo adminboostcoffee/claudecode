@@ -89,10 +89,7 @@ function CustomerRow({ rank, name, email, primary, secondary, primaryLabel, seco
   )
 }
 
-export default function Appfront() {
-  const today = new Date().toISOString().slice(0, 10)
-  const [startDate, setStartDate] = useState('2026-06-01')
-  const [endDate, setEndDate]     = useState(today)
+export default function Appfront({ startDate = '2026-06-01', endDate = '2026-06-22' }) {
   const [data, setData]           = useState(null)
   const [loading, setLoading]     = useState(false)
   const [error, setError]         = useState(null)
@@ -132,7 +129,7 @@ export default function Appfront() {
     }
   }, [startDate, endDate])
 
-  useEffect(() => { fetchData() }, [fetchData])
+  useEffect(() => { fetchData() }, [startDate, endDate])
 
   const totals      = data?.total?.[0] || {}
   const sales       = totals.spentAmount   || 0
@@ -164,47 +161,12 @@ export default function Appfront() {
   return (
     <div className="space-y-6">
 
-      {/* Header + date range */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-            <span className="text-xl">☕</span> Appfront — App Performance
-          </h2>
-          <p className="text-xs text-gray-400 mt-0.5">Live loyalty & ordering data · Members only</p>
-        </div>
-
-        <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center gap-1.5 bg-gray-900 border border-gray-700 rounded-xl px-3 py-2">
-            <span className="text-xs text-gray-400">From</span>
-            <input
-              type="date"
-              value={startDate}
-              onChange={e => setStartDate(e.target.value)}
-              className="bg-transparent text-sm text-white outline-none cursor-pointer"
-              min="2026-06-01"
-              max={endDate}
-            />
-          </div>
-          <span className="text-gray-600 text-sm">→</span>
-          <div className="flex items-center gap-1.5 bg-gray-900 border border-gray-700 rounded-xl px-3 py-2">
-            <span className="text-xs text-gray-400">To</span>
-            <input
-              type="date"
-              value={endDate}
-              onChange={e => setEndDate(e.target.value)}
-              className="bg-transparent text-sm text-white outline-none cursor-pointer"
-              min={startDate}
-              max={today}
-            />
-          </div>
-          <button
-            onClick={fetchData}
-            disabled={loading}
-            className="bg-orange-500 hover:bg-orange-400 disabled:opacity-50 text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors"
-          >
-            {loading ? '...' : 'Apply'}
-          </button>
-        </div>
+      {/* Header */}
+      <div>
+        <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+          <span className="text-xl">☕</span> Appfront — App Performance
+        </h2>
+        <p className="text-xs text-gray-400 mt-0.5">Live loyalty & ordering data · Members only</p>
       </div>
 
       {/* Error state */}
