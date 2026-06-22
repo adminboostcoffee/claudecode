@@ -13,6 +13,30 @@ import { metaAdsRaw, igOrganicRaw, tiktokAdsRaw, lastRefreshed } from './data/in
 const DATA_MIN = '2026-04-01'
 const DATA_MAX = '2026-06-21'
 
+// Default to current month start, clamped to data bounds
+function getMonthStart() {
+  const d = new Date()
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const candidate = `${y}-${m}-01`
+  return candidate < DATA_MIN ? DATA_MIN : candidate > DATA_MAX ? DATA_MAX : candidate
+}
+
+const PRESETS = [
+  { label: 'This Month', getRange: () => ({ start: getMonthStart(), end: DATA_MAX }) },
+  { label: '14 Days',    getRange: () => {
+    const d = new Date(DATA_MAX); d.setDate(d.getDate() - 13)
+    const s = d.toISOString().slice(0, 10)
+    return { start: s < DATA_MIN ? DATA_MIN : s, end: DATA_MAX }
+  }},
+  { label: '30 Days',    getRange: () => {
+    const d = new Date(DATA_MAX); d.setDate(d.getDate() - 29)
+    const s = d.toISOString().slice(0, 10)
+    return { start: s < DATA_MIN ? DATA_MIN : s, end: DATA_MAX }
+  }},
+  { label: 'All Time',   getRange: () => ({ start: DATA_MIN, end: DATA_MAX }) },
+]
+
 const TABS = [
   { id: 'overview',      label: 'Overview' },
   { id: 'meta',          label: 'Meta Ads' },
@@ -31,8 +55,14 @@ function fmtDateLabel(d) {
 
 export default function App() {
   const [tab, setTab]         = useState('overview')
-  const [startDate, setStart] = useState(DATA_MIN)
+  const [startDate, setStart] = useState(() => getMonthStart())
   const [endDate,   setEnd]   = useState(DATA_MAX)
+  const [activePreset, setActivePreset] = useState('This Month')
+
+  const applyPreset = (preset) => {
+    const { start, end } = preset.getRange()
+    setStart(start); setEnd(end); setActivePreset(preset.label)
+  }
 
   const metaFiltered = useMemo(() =>
     metaAdsRaw.filter(r => r.date >= startDate && r.date <= endDate)
@@ -89,6 +119,22 @@ export default function App() {
 
         {/* Date range picker — prominent, always visible */}
         <div className="flex items-center gap-2 flex-wrap">
+          {/* Preset buttons */}
+          <div className="flex items-center bg-gray-800 border border-gray-700 rounded-xl p-0.5 gap-0.5">
+            {PRESETS.map(p => (
+              <button
+                key={p.label}
+                onClick={() => applyPreset(p)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors whitespace-nowrap ${
+                  activePreset === p.label
+                    ? 'bg-orange-500 text-white'
+                    : 'text-gray-400 hover:text-gray-200'
+                }`}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
           <div className="flex items-center gap-1 bg-gray-800 border border-gray-700 rounded-xl px-1 py-1">
             <div className="flex items-center gap-1.5 px-2">
               <span className="text-xs text-gray-400 whitespace-nowrap">From</span>
@@ -97,7 +143,7 @@ export default function App() {
                 value={startDate}
                 min={DATA_MIN}
                 max={endDate}
-                onChange={e => setStart(e.target.value)}
+                onChange={e => { setStart(e.target.value); setActivePreset(null) }}
                 className="bg-transparent text-sm text-white outline-none cursor-pointer"
               />
             </div>
@@ -109,13 +155,13 @@ export default function App() {
                 value={endDate}
                 min={startDate}
                 max={DATA_MAX}
-                onChange={e => setEnd(e.target.value)}
+                onChange={e => { setEnd(e.target.value); setActivePreset(null) }}
                 className="bg-transparent text-sm text-white outline-none cursor-pointer"
               />
             </div>
             {!isFullRange && (
               <button
-                onClick={() => { setStart(DATA_MIN); setEnd(DATA_MAX) }}
+                onClick={() => applyPreset(PRESETS[0])}
                 className="text-xs text-gray-400 hover:text-white px-2 py-1 rounded-lg hover:bg-gray-700 transition-colors whitespace-nowrap"
                 title="Reset to full range"
               >
