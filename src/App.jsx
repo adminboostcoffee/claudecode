@@ -16,9 +16,9 @@ const TABS = [
   { id: 'meta',          label: 'Meta Ads' },
   { id: 'ig',            label: 'IG Organic' },
   { id: 'tiktok',        label: 'TikTok Ads' },
-  { id: 'google',        label: 'Google Ads' },
   { id: 'demographics',  label: 'Demographics' },
   { id: 'appfront',      label: 'Appfront' },
+  { id: 'google',        label: 'Google Ads' },
 ]
 
 function fmtDateLabel(d) {

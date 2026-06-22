@@ -66,11 +66,13 @@ export default function MetaAds({ data }) {
   const [expandedCampaigns, setExpandedCampaigns] = useState({})
   const [expandedAdsets, setExpandedAdsets] = useState({})
   const [sortMetric, setSortMetric] = useState('spend')
-  const [activeOnly, setActiveOnly] = useState(false)
+  const [statusFilter, setStatusFilter] = useState('all')
 
-  const filteredData = useMemo(() =>
-    activeOnly ? data.filter(r => r.status === 'ACTIVE') : data
-  , [data, activeOnly])
+  const filteredData = useMemo(() => {
+    if (statusFilter === 'live')     return data.filter(r => r.status === 'ACTIVE')
+    if (statusFilter === 'inactive') return data.filter(r => r.status === 'PAUSED')
+    return data
+  }, [data, statusFilter])
 
   const campaigns = useMemo(() => {
     const byCampaign = groupBy(filteredData, 'campaign')
@@ -157,12 +159,27 @@ export default function MetaAds({ data }) {
                 </button>
               ))}
             </div>
-            <button
-              onClick={() => setActiveOnly(v => !v)}
-              className={`text-xs px-3 py-0.5 rounded-full border transition-colors ${activeOnly ? 'bg-green-600 border-green-500 text-white' : 'border-gray-600 text-gray-400 hover:border-gray-400 hover:text-gray-200'}`}
-            >
-              {activeOnly ? '● Active Only' : 'All Campaigns'}
-            </button>
+            <div className="flex items-center bg-gray-800 rounded-lg p-0.5 text-xs font-medium">
+              {[
+                { id: 'all',      label: 'All' },
+                { id: 'live',     label: '🟢 Live' },
+                { id: 'inactive', label: 'Inactive' },
+              ].map(f => (
+                <button
+                  key={f.id}
+                  onClick={() => setStatusFilter(f.id)}
+                  className={`px-3 py-1 rounded-md transition-colors ${
+                    statusFilter === f.id
+                      ? f.id === 'live'
+                        ? 'bg-green-600 text-white'
+                        : 'bg-gray-600 text-white'
+                      : 'text-gray-400 hover:text-gray-200'
+                  }`}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
         <div className="overflow-x-auto">
