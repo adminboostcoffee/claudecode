@@ -52,8 +52,8 @@ export default function PasswordGate({ children }) {
 
         {/* Card */}
         <div className="bg-gray-900/80 backdrop-blur border border-gray-800 rounded-2xl p-8 shadow-2xl">
-          <h2 className="text-white font-semibold text-lg mb-1">Welcome back</h2>
-          <p className="text-gray-400 text-sm mb-6">Enter your access password to continue.</p>
+          <h2 className="text-white font-semibold text-lg mb-1 text-center">Welcome back</h2>
+          <p className="text-gray-400 text-sm mb-6 text-center">Enter your access password to continue.</p>
 
           <form onSubmit={submit} className="space-y-4">
             <div>
