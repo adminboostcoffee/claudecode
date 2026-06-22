@@ -39,9 +39,9 @@ export default function PasswordGate({ children }) {
 
         {/* Logo */}
         <div className="flex flex-col items-center mb-10 select-none">
-          <div className="flex items-end gap-1" style={{ fontFamily: "'Montserrat', sans-serif" }}>
-            <span style={{ color: '#F5A623', fontSize: '3rem', lineHeight: 1, fontWeight: 900 }}>⚡</span>
-            <span style={{ color: '#1EC8C8', fontSize: '3rem', lineHeight: 1, fontWeight: 900, letterSpacing: '-0.02em' }}>BOOST</span>
+          <div className="flex items-center gap-0" style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '3rem', lineHeight: 1, fontWeight: 900 }}>
+            <span style={{ color: '#F5A623', fontSize: '2.4rem', position: 'relative', top: '1px' }}>⚡</span>
+            <span style={{ color: '#1EC8C8', letterSpacing: '-0.02em' }}>BOOST</span>
           </div>
           <div style={{ color: '#F5A623', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.22em', fontFamily: "'Montserrat', sans-serif" }}>
             COFFEE + ENERGY
