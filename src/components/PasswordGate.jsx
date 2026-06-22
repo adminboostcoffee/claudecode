@@ -39,8 +39,8 @@ export default function PasswordGate({ children }) {
 
         {/* Logo */}
         <div className="flex flex-col items-center mb-10 select-none">
-          <div className="flex items-center gap-0" style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '3rem', lineHeight: 1, fontWeight: 900 }}>
-            <span style={{ color: '#F5A623', fontSize: '2.4rem', position: 'relative', top: '1px' }}>⚡</span>
+          <div className="relative flex items-center justify-center" style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '3rem', lineHeight: 1, fontWeight: 900 }}>
+            <span style={{ color: '#F5A623', fontSize: '2.2rem', position: 'absolute', right: '100%', top: '50%', transform: 'translateY(-50%)', paddingRight: '2px' }}>⚡</span>
             <span style={{ color: '#1EC8C8', letterSpacing: '-0.02em' }}>BOOST</span>
           </div>
           <div style={{ color: '#F5A623', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.22em', fontFamily: "'Montserrat', sans-serif" }}>
