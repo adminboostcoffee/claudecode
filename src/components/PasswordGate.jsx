@@ -38,16 +38,12 @@ export default function PasswordGate({ children }) {
       <div className={`w-full max-w-sm transition-all relative z-10 ${shake ? 'animate-shake' : ''}`}>
 
         {/* Logo */}
-        <div className="flex flex-col items-center mb-10 select-none gap-1">
-          <div className="flex items-end gap-1" style={{ fontFamily: "'Montserrat', sans-serif" }}>
-            <span style={{ color: '#F5A623', fontSize: '2.8rem', lineHeight: 1, fontWeight: 900 }}>⚡</span>
-            <span style={{ color: '#1EC8C8', fontSize: '2.8rem', lineHeight: 1, fontWeight: 900, letterSpacing: '-0.02em' }}>BOOST</span>
-          </div>
-          <div style={{ color: '#F5A623', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.22em', fontFamily: "'Montserrat', sans-serif" }}>
-            COFFEE + ENERGY
-          </div>
-          <div className="w-8 h-px bg-gray-700 mt-3" />
-          <p className="text-xs text-gray-500 mt-2 tracking-wide">Performance Dashboard</p>
+        <div className="flex flex-col items-center mb-8 select-none">
+          <img
+            src="/claudecode/dashboard_boost.png"
+            alt="Boost Coffee + Energy"
+            className="w-52 object-contain"
+          />
         </div>
 
         {/* Card */}
