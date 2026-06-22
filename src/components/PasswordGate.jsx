@@ -34,16 +34,12 @@ export default function PasswordGate({ children }) {
 
         {/* Logo */}
         <div className="flex flex-col items-center mb-10 select-none">
-          <div className="leading-none text-center">
-            <div className="flex items-center justify-center gap-0" style={{ fontWeight: 900, fontSize: '2rem', letterSpacing: '-0.01em', fontFamily: "'Montserrat', sans-serif" }}>
-              <span style={{ color: '#F5C200' }}>⚡</span>
-              <span style={{ color: '#1EC8C8' }}>BOOST</span>
-            </div>
-            <div style={{ color: '#F5C200', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.18em', fontFamily: "'Montserrat', sans-serif" }}>
-              COFFEE + ENERGY
-            </div>
-          </div>
-          <p className="text-xs text-gray-500 mt-4">Social Media Performance Dashboard</p>
+          <img
+            src="/logo.png"
+            alt="Boost Coffee + Energy"
+            className="w-44 object-contain mb-3"
+          />
+          <p className="text-xs text-gray-500">Performance Dashboard</p>
         </div>
 
         {/* Card */}
