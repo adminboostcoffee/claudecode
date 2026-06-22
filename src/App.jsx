@@ -54,11 +54,11 @@ export default function App() {
         <div className="flex items-center gap-3 flex-shrink-0">
           {/* Boost Coffee + Energy logo */}
           <div className="flex flex-col leading-none select-none">
-            <div className="flex items-center gap-0" style={{ fontWeight: 900, fontSize: '1.35rem', letterSpacing: '-0.01em' }}>
+            <div className="flex items-center gap-0" style={{ fontWeight: 900, fontSize: '1.35rem', letterSpacing: '-0.01em', fontFamily: "'Montserrat', sans-serif" }}>
               <span style={{ color: '#F5C200' }}>⚡</span>
-              <span style={{ color: '#1EC8C8', fontFamily: 'system-ui, sans-serif' }}>BOOST</span>
+              <span style={{ color: '#1EC8C8' }}>BOOST</span>
             </div>
-            <div style={{ color: '#F5C200', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.12em', fontFamily: 'system-ui, sans-serif' }}>
+            <div style={{ color: '#F5C200', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.14em', fontFamily: "'Montserrat', sans-serif" }}>
               COFFEE + ENERGY
             </div>
           </div>
