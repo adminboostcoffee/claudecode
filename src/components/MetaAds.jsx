@@ -33,8 +33,11 @@ function aggregateRows(rows) {
 
 const COL_HEADERS = ['Impressions', 'Reach', 'Spend', 'Clicks', 'CPM', 'CTR']
 
-function MetricRow({ label, data, level, onExpand, expanded, children }) {
+function MetricRow({ label, data, level, onExpand, expanded, sortMetric, children }) {
   const indent = level * 20
+  const hi = 'text-orange-400'
+  const normal = 'text-gray-100'
+  const c = (col) => sortMetric === col ? hi : normal
   return (
     <>
       <tr
@@ -50,12 +53,12 @@ function MetricRow({ label, data, level, onExpand, expanded, children }) {
             <span className={`text-sm ${level === 0 ? 'font-semibold text-white' : level === 1 ? 'text-gray-200' : 'text-gray-300'}`}>{label}</span>
           </div>
         </td>
-        <td className="py-2.5 px-3 text-sm text-right">{fmt(data.impressions)}</td>
-        <td className="py-2.5 px-3 text-sm text-right">{fmt(data.reach)}</td>
-        <td className="py-2.5 px-3 text-sm text-right text-orange-400">${(data.spend || 0).toFixed(2)}</td>
-        <td className="py-2.5 px-3 text-sm text-right">{fmt(data.clicks)}</td>
-        <td className="py-2.5 px-3 text-sm text-right">${(data.cpm || 0).toFixed(2)}</td>
-        <td className="py-2.5 px-3 text-sm text-right">{((data.ctr || 0) * 100).toFixed(2)}%</td>
+        <td className={`py-2.5 px-3 text-sm text-right ${c('impressions')}`}>{fmt(data.impressions)}</td>
+        <td className={`py-2.5 px-3 text-sm text-right ${c('reach')}`}>{fmt(data.reach)}</td>
+        <td className={`py-2.5 px-3 text-sm text-right ${c('spend')}`}>${(data.spend || 0).toFixed(2)}</td>
+        <td className={`py-2.5 px-3 text-sm text-right ${c('clicks')}`}>{fmt(data.clicks)}</td>
+        <td className={`py-2.5 px-3 text-sm text-right ${c('cpm')}`}>${(data.cpm || 0).toFixed(2)}</td>
+        <td className={`py-2.5 px-3 text-sm text-right ${c('ctr')}`}>{((data.ctr || 0) * 100).toFixed(2)}%</td>
       </tr>
       {expanded && children}
     </>
@@ -201,12 +204,9 @@ export default function MetaAds({ data }) {
             <thead>
               <tr className="border-b border-gray-800 text-xs text-gray-400 uppercase">
                 <th className="py-2 px-3 text-left">Name</th>
-                <th className="py-2 px-3 text-right">Impressions</th>
-                <th className="py-2 px-3 text-right">Reach</th>
-                <th className="py-2 px-3 text-right">Spend</th>
-                <th className="py-2 px-3 text-right">Clicks</th>
-                <th className="py-2 px-3 text-right">CPM</th>
-                <th className="py-2 px-3 text-right">CTR</th>
+                {[['impressions','Impressions'],['reach','Reach'],['spend','Spend'],['clicks','Clicks'],['cpm','CPM'],['ctr','CTR']].map(([key, label]) => (
+                  <th key={key} className={`py-2 px-3 text-right ${sortMetric === key ? 'text-orange-400' : ''}`}>{label}</th>
+                ))}
               </tr>
             </thead>
             <tbody>
@@ -219,6 +219,7 @@ export default function MetaAds({ data }) {
                     level={0}
                     expanded={expandedCampaigns[c.name]}
                     onExpand={() => toggleCampaign(c.name)}
+                    sortMetric={sortMetric}
                   >
                     {c.adsets.map(a => {
                       const aKey = `${c.name}|${a.name}`
@@ -230,6 +231,7 @@ export default function MetaAds({ data }) {
                           level={1}
                           expanded={expandedAdsets[aKey]}
                           onExpand={() => toggleAdset(aKey)}
+                          sortMetric={sortMetric}
                         >
                           {a.ads.map(ad => (
                             <MetricRow
@@ -238,6 +240,7 @@ export default function MetaAds({ data }) {
                               data={ad}
                               level={2}
                               onExpand={null}
+                              sortMetric={sortMetric}
                             />
                           ))}
                         </MetricRow>
