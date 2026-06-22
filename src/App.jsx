@@ -18,7 +18,7 @@ const TABS = [
   { id: 'tiktok',        label: 'TikTok Ads' },
   { id: 'google',        label: 'Google Ads' },
   { id: 'demographics',  label: 'Demographics' },
-  { id: 'appfront',      label: 'App (Appfront)' },
+  { id: 'appfront',      label: 'Appfront' },
 ]
 
 function fmtDateLabel(d) {
