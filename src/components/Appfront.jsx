@@ -32,9 +32,7 @@ query analyticsBoxes(
   ) {
     total
     purchaseTimeseries {
-      date spentAmount netSpentAmount count
-      branchesBreakdown
-      __typename
+      date spentAmount netSpentAmount count branchesBreakdown
     }
     topItems
     topSpenders
@@ -44,14 +42,6 @@ query analyticsBoxes(
     upsellTotals
     geoLocations
     visitsBreakdown
-    csvFiles {
-      topVisitors { dataUrl filename size type __typename }
-      topSpenders { dataUrl filename size type __typename }
-      topAvgSpenders { dataUrl filename size type __typename }
-      topItems { dataUrl filename size type __typename }
-      __typename
-    }
-    __typename
   }
 }
 `
