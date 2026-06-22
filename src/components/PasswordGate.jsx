@@ -51,7 +51,7 @@ export default function PasswordGate({ children }) {
         </div>
 
         {/* Card */}
-        <div className="bg-gray-900/80 backdrop-blur border border-gray-800 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-gray-900/80 backdrop-blur border border-gray-800 rounded-2xl p-8 shadow-2xl text-center">
           <h2 className="text-white font-semibold text-lg mb-1 text-center">Welcome back</h2>
           <p className="text-gray-400 text-sm mb-6 text-center">Enter your access password to continue.</p>
 
