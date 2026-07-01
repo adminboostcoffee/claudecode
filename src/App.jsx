@@ -11,7 +11,7 @@ import PasswordGate from './components/PasswordGate'
 import { metaAdsRaw, igOrganicRaw, tiktokAdsRaw, lastRefreshed } from './data/index'
 
 const DATA_MIN = '2026-04-01'
-const DATA_MAX = '2026-06-21'
+const DATA_MAX = '2026-06-25'
 
 // Default to current month start, clamped to data bounds
 function getMonthStart() {

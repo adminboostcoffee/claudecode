@@ -116,6 +116,21 @@ export const metaAdsRaw = [
   { date: '2026-06-21', campaign: 'Boost App Campaign - IOS 14 or later',  adset_name: 'App Rewards', ad_name: 'Buy 3 Get 1 Free',    impressions: 8,    spend: 0.04,  clicks: 0,  reach: 7,    cpm: 5.00,  ctr: 0,      status: 'ACTIVE' },
   { date: '2026-06-21', campaign: 'Boost_103rd_Now Open',                  adset_name: 'Now Open_103rd', ad_name: 'Now Open',       impressions: 5539, spend: 15.61, clicks: 15, reach: 4935, cpm: 2.82,  ctr: 0.0027, status: 'ACTIVE' },
   { date: '2026-06-21', campaign: 'Boost_103rd_Now Open',                  adset_name: 'Now Open_103rd', ad_name: 'Now Open Daily', impressions: 28,   spend: 0.08,  clicks: 0,  reach: 26,   cpm: 2.86,  ctr: 0,      status: 'ACTIVE' },
+  // ── Jun 22–25 ──
+  { date: '2026-06-22', campaign: 'Boost App Campaign - IOS 14 or later', adset_name: 'App Rewards',    ad_name: 'Free Drink with App_IOS', impressions: 628,  spend: 5.64,  clicks: 1,  reach: 463,  cpm: 8.98,  ctr: 0.0016, status: 'ACTIVE' },
+  { date: '2026-06-22', campaign: 'Boost App Campaign - IOS 14 or later', adset_name: 'App Rewards',    ad_name: 'Buy 3 Get 1 Free',        impressions: 422,  spend: 5.96,  clicks: 1,  reach: 300,  cpm: 14.12, ctr: 0.0024, status: 'ACTIVE' },
+  { date: '2026-06-22', campaign: 'Boost_103rd_Now Open',                 adset_name: 'Now Open_103rd', ad_name: 'Now Open',                impressions: 5381, spend: 14.93, clicks: 12, reach: 4718, cpm: 2.77,  ctr: 0.0022, status: 'ACTIVE' },
+  { date: '2026-06-22', campaign: 'Boost_103rd_Now Open',                 adset_name: 'Now Open_103rd', ad_name: 'Now Open Daily',          impressions: 378,  spend: 1.05,  clicks: 0,  reach: 341,  cpm: 2.78,  ctr: 0,      status: 'ACTIVE' },
+  { date: '2026-06-23', campaign: 'Boost App Campaign - IOS 14 or later', adset_name: 'App Rewards',    ad_name: 'Free Drink with App_IOS', impressions: 2048, spend: 22.05, clicks: 12, reach: 1122, cpm: 10.77, ctr: 0.0059, status: 'ACTIVE' },
+  { date: '2026-06-23', campaign: 'Boost App Campaign - IOS 14 or later', adset_name: 'App Rewards',    ad_name: 'Buy 3 Get 1 Free',        impressions: 2,    spend: 0.02,  clicks: 1,  reach: 2,    cpm: 10.00, ctr: 0.5,    status: 'ACTIVE' },
+  { date: '2026-06-23', campaign: 'Boost_103rd_Now Open',                 adset_name: 'Now Open_103rd', ad_name: 'Now Open',                impressions: 5488, spend: 15.56, clicks: 14, reach: 4800, cpm: 2.84,  ctr: 0.0026, status: 'ACTIVE' },
+  { date: '2026-06-24', campaign: 'Boost App Campaign - IOS 14 or later', adset_name: 'App Rewards',    ad_name: 'Free Drink with App_IOS', impressions: 1983, spend: 20.99, clicks: 19, reach: 1138, cpm: 10.59, ctr: 0.0096, status: 'ACTIVE' },
+  { date: '2026-06-24', campaign: 'Boost App Campaign - IOS 14 or later', adset_name: 'App Rewards',    ad_name: 'Buy 3 Get 1 Free',        impressions: 351,  spend: 4.91,  clicks: 5,  reach: 255,  cpm: 13.99, ctr: 0.0142, status: 'ACTIVE' },
+  { date: '2026-06-24', campaign: 'Boost_103rd_Now Open',                 adset_name: 'Now Open_103rd', ad_name: 'Now Open',                impressions: 4790, spend: 14.27, clicks: 8,  reach: 4106, cpm: 2.98,  ctr: 0.0017, status: 'ACTIVE' },
+  { date: '2026-06-24', campaign: 'Boost_103rd_Now Open',                 adset_name: 'Now Open_103rd', ad_name: 'Now Open Daily',          impressions: 222,  spend: 0.65,  clicks: 1,  reach: 211,  cpm: 2.93,  ctr: 0.0045, status: 'ACTIVE' },
+  { date: '2026-06-25', campaign: 'Boost App Campaign - IOS 14 or later', adset_name: 'App Rewards',    ad_name: 'Free Drink with App_IOS', impressions: 2304, spend: 25.87, clicks: 11, reach: 1328, cpm: 11.23, ctr: 0.0048, status: 'ACTIVE' },
+  { date: '2026-06-25', campaign: 'Boost_103rd_Now Open',                 adset_name: 'Now Open_103rd', ad_name: 'Now Open',                impressions: 5078, spend: 15.45, clicks: 7,  reach: 4468, cpm: 3.04,  ctr: 0.0014, status: 'ACTIVE' },
+  { date: '2026-06-25', campaign: 'Boost_103rd_Now Open',                 adset_name: 'Now Open_103rd', ad_name: 'Now Open Daily',          impressions: 168,  spend: 0.54,  clicks: 0,  reach: 152,  cpm: 3.21,  ctr: 0,      status: 'ACTIVE' },
 ]
 
 // ─── Meta Ads: Demographics (age × gender, Apr–Jun) ─────────────────────────
@@ -232,5 +247,5 @@ export const tiktokAdsRaw = [
 ]
 
 // ─── Last refreshed ──────────────────────────────────────────────────────────
-export const lastRefreshed = '2026-06-22'
+export const lastRefreshed = 'Jul 1, 2026'
 export const dataDateRange = 'Apr 1 – Jun 21, 2026'
