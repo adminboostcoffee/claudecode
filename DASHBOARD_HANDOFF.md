@@ -205,7 +205,7 @@ Settings → Collaborators → Add their GitHub username
 
 ## Final Note
 
-This dashboard was built entirely with Claude Code — no traditional development agency, no Figma handoffs, no sprint cycles. Features that would normally take weeks were shipped in hours. Everything is editable, everything is expandable, and the codebase is clean enough that any developer (or Claude) can pick it up and keep going without starting from scratch.
+This dashboard was built entirely with Claude Code. Everything is editable, everything is expandable, and the codebase is clean enough that any developer (or Claude user) can pick it up and keep going without starting from scratch.
 
 The foundation is solid. What's left is connecting the remaining data sources and building out the export/AI features that are already designed and approved. Whoever picks this up is in a great position — most of the hard architectural work is done.
 
