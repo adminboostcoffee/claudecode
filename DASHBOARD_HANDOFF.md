@@ -81,10 +81,12 @@ The main branch being actively developed is:
 | Source | How It's Connected | Status |
 |---|---|---|
 | Meta Ads | Windsor.ai ✅ | ✅ Live — refreshable on demand |
-| TikTok Ads | Windsor.ai — **needs to be connected** | ⚠️ Currently hardcoded data |
-| Instagram Organic | Windsor.ai — **needs to be connected** | ⚠️ Currently hardcoded data |
-| Google Ads | Windsor.ai — **needs to be connected** + official API | 🔧 In progress |
+| TikTok Ads | Windsor.ai ✅ (connected — needs sync verified) | 🔍 Needs data pull confirmed |
+| Instagram Organic | Windsor.ai ✅ (connected — needs sync verified) | 🔍 Needs data pull confirmed |
+| Google Ads | Windsor.ai — add connector + official API | 🔧 In progress |
 | Appfront | Custom Cloudflare Worker proxy | ✅ Live (real-time, no refresh needed) |
+
+> **Note:** Windsor.ai is currently on a free trial — approximately 15 days remaining. Make sure to upgrade before it expires to avoid any disruption to data pulls.
 
 ### Cloudflare Workers (Proxy Layer)
 Two Cloudflare Workers are running under the Cloudflare account (aubrianna@boostcoffee.com):
@@ -119,25 +121,22 @@ We reverse-engineered Appfront's internal GraphQL API (the same one their own ap
 
 ---
 
-## Windsor.ai — What Needs to Be Connected
+## Windsor.ai — Connection Status & What's Next
 
-Windsor.ai is the hub that connects ad platforms to the dashboard. Right now **only Meta Ads is fully connected and working.** Here's what needs to be added:
+Windsor.ai is the hub that connects ad platforms to the dashboard. Meta Ads, TikTok Ads, and Instagram Organic have all been added as connectors. Google Ads still needs to be added.
 
-### To Connect TikTok Ads:
-1. Log in to Windsor.ai (admin@boostcoffee.com)
-2. Go to Connectors → Add Connector → TikTok Ads
-3. Authorize with Boost's TikTok Ads account
-4. Once connected, ask Claude: *"Can you refresh TikTok Ads data from Windsor.ai?"*
+> **Free trial:** Windsor.ai is currently on a free trial with approximately 15 days remaining. Upgrade before it expires to avoid interruption.
 
-### To Connect Instagram Organic:
-1. Same process — Add Connector → Instagram (Public/Organic)
-2. Authorize with Boost's Instagram account
-3. Ask Claude to refresh once connected
+### TikTok Ads & Instagram Organic — Already Connected
+Both connectors have been added in Windsor. If data isn't pulling correctly, ask Claude:
+> *"Can you try pulling TikTok Ads and Instagram Organic data from Windsor.ai and let me know if there are any errors?"*
+Claude will diagnose whether it's an auth issue, a sync delay, or something else.
 
 ### To Connect Google Ads:
-1. Add Connector → Google Ads in Windsor
-2. Also add Google Analytics 4 while you're there (same Google account)
-3. This unlocks the Google Ads tab and full attribution data from GTM → GA4
+1. Log into Windsor.ai (admin@boostcoffee.com)
+2. Add Connector → Google Ads
+3. Also add Google Analytics 4 while you're there (same Google account)
+4. This unlocks the Google Ads tab and full attribution data from GTM → GA4
 
 ---
 
@@ -171,8 +170,8 @@ These were in progress or recently completed when this handoff was written:
 
 Claude will pull the latest Meta Ads data, update the file, and push it — the site redeploys within a few minutes automatically.
 
-### 🟡 TikTok Ads & Instagram Organic Not Connected to Windsor
-Both are currently hardcoded. TikTok and Instagram need to be connected in Windsor.ai (see the Windsor section above). Once connected, Claude can refresh them on demand the same way it does Meta.
+### 🟡 TikTok Ads & Instagram Organic — Windsor Connected, Sync Needs Verification
+Both TikTok Ads and Instagram Organic have been added as connectors in Windsor.ai, but the data pull hasn't been confirmed yet — it's possible the accounts just need to finish authorizing or syncing. Ask Claude to attempt a data refresh and it will diagnose whether Windsor is returning data or if there's an auth step still pending.
 
 ### 🟡 Google Ads Not Yet Added
 Google Ads needs to be added to Windsor.ai and the dashboard tab needs to be wired up. The tab currently shows a "Setup" badge.
