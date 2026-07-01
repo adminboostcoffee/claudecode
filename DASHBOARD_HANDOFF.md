@@ -28,7 +28,7 @@ These are the accounts you'll need access to in order to manage and maintain the
 | **Windsor.ai** | https://windsor.ai | admin@boostcoffee.com | `fcH6G8Z4K$4N` |
 | **Cloudflare** | https://www.cloudflare.com | aubrianna@boostcoffee.com | `fcH6G8Z4K$4N` |
 
-**Cloudflare** is where the two background proxy services (Workers) are hosted — one for Appfront data and one for the AI chatbot integration. You won't need to touch it often but it's good to have access.
+**Cloudflare** is where the two background proxy services (Workers) are hosted — one for Appfront data and one for the AI chatbot integration. You have been added as a member/administrator on the Cloudflare account — log in with your own email to access it. You won't need to touch it often but it's good to have access.
 
 **Windsor.ai** is where the ad platform connections are managed. You'll log in here to add or reconnect data sources (TikTok, Instagram, Google Ads, etc.).
 
