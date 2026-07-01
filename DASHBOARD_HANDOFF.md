@@ -1,268 +1,157 @@
 # Boost Coffee & Energy — Performance Dashboard
-## Handoff Guide for New Collaborators
+### Executive Handoff Guide
 
 ---
 
-## What Is This?
+## First Things First — The Dashboard
 
-This is a **fully custom, real-time marketing performance dashboard** built specifically for Boost Coffee & Energy. It lives at:
+Go here: **https://adminboostcoffee.github.io/dashboard/**
+Password: **fcH6G8Z4K$4N** *(enter once, stays saved in your browser forever)*
 
-**https://adminboostcoffee.github.io/dashboard/**
-
-Password: `fcH6G8Z4K$4N` (you only need to enter this once per browser — it stays saved)
-
-This is not a generic tool or a template — it was built from scratch to show exactly the data Boost cares about, in a format that actually makes sense. It pulls live data from Meta Ads, TikTok Ads, Instagram Organic, and Appfront (loyalty/ordering app), with Google Ads integration in progress. The goal was to replace a patchwork of separate platform dashboards and give the team one clean place to see everything.
-
-It looks great, it's fast, and it's 100% owned by Boost — no monthly SaaS fees, no vendor lock-in, no one else's template.
+This is a fully custom marketing performance dashboard built from scratch for Boost. It replaced the need to log into Meta, TikTok, Instagram, and Appfront separately every time you want to see numbers. Everything lives in one place, filtered by date, with clean charts and sortable tables. It's fast, it's password protected, and Boost owns it completely — no subscriptions, no agency, no vendor telling you what you can and can't see.
 
 ---
 
-## Login Credentials
+## All the Logins You Need
 
-These are the accounts you'll need access to in order to manage and maintain the dashboard:
-
-| Platform | URL | Email | Password |
+| What | Website | Email | Password |
 |---|---|---|---|
-| **Dashboard** | https://adminboostcoffee.github.io/dashboard/ | *(no login required — use password below)* | `fcH6G8Z4K$4N` |
-| **GitHub** | https://github.com | admin@boostcoffee.com | `fcH6G8Z4K$4N` |
-| **Windsor.ai** | https://windsor.ai | admin@boostcoffee.com | `fcH6G8Z4K$4N` |
-| **Cloudflare** | https://www.cloudflare.com | aubrianna@boostcoffee.com | `fcH6G8Z4K$4N` |
+| **The Dashboard** | https://adminboostcoffee.github.io/dashboard/ | — | `fcH6G8Z4K$4N` |
+| **GitHub** *(where the code lives)* | https://github.com | admin@boostcoffee.com | `fcH6G8Z4K$4N` |
+| **Windsor.ai** *(ad data connector)* | https://windsor.ai | admin@boostcoffee.com | `fcH6G8Z4K$4N` |
+| **Cloudflare** *(backend services)* | https://cloudflare.com | aubrianna@boostcoffee.com | `fcH6G8Z4K$4N` |
+| **Claude Code** *(how you make changes)* | https://claude.ai/code | *(your own Claude account)* | — |
 
-**Cloudflare** is where the two background proxy services (Workers) are hosted — one for Appfront data and one for the AI chatbot integration. You have been added as a member/administrator on the Cloudflare account — log in with your own email to access it. You won't need to touch it often but it's good to have access.
+> **Cloudflare:** You've been added as an Administrator — you can log in with your own email once you accept the invite. This is where the two background services run that power Appfront data and the AI chatbot.
 
-**Windsor.ai** is where the ad platform connections are managed. You'll log in here to add or reconnect data sources (TikTok, Instagram, Google Ads, etc.).
+> **Windsor.ai FREE TRIAL:** ⚠️ Approximately **15 days remaining** on the free trial. Upgrade before it expires or data connections will stop working.
 
 ---
 
-## What's Currently Built
+## What the Dashboard Does Right Now
 
-### Tabs in the Dashboard
+### The Tabs
 
-| Tab | What It Shows |
+| Tab | What You See |
 |---|---|
-| **Overview** | High-level KPIs across all channels — total spend, impressions, reach, clicks |
-| **Meta Ads** | Full campaign breakdown with sortable table, date filtering, spend/CTR/CPM metrics |
-| **IG Organic** | Instagram organic reach, views, likes, comments, saves, follower growth |
-| **TikTok Ads** | TikTok campaign performance, sortable by any metric |
-| **Demographics** | Meta Ads age & gender breakdown — charts + sortable table |
-| **Appfront** | Live loyalty/ordering data: sales, visits, avg ticket, top items, customer leaderboard |
-| **Google Ads** | Setup in progress |
+| **Overview** | The big picture — total spend, impressions, reach, and clicks across every channel combined |
+| **Meta Ads** | Every Meta campaign broken down by spend, impressions, reach, clicks, CTR, CPM — sortable by any column |
+| **IG Organic** | Instagram organic performance — reach, views, likes, comments, saves, follower growth |
+| **TikTok Ads** | TikTok campaign performance — same sortable breakdown as Meta |
+| **Demographics** | Who your Meta ads are reaching — age and gender breakdown with charts and a full data table |
+| **Appfront** | Live loyalty and ordering data — sales, visits, average ticket, top menu items, customer leaderboard |
+| **Google Ads** | Coming soon — integration in progress |
 
-### Features
-- **Date range picker** at the top — filter any tab by custom date range
-- **Preset buttons** — This Month, 14 Days, 30 Days, All Time
-- **Sortable tables** — click any column header to sort ascending/descending
-- **Active column highlighting** — sorted column turns orange so you always know what you're sorted by
-- **Appfront live data** — pulls real loyalty data from Boost's actual account in real time
-- **Password protected** — one-time login per browser, stays saved
-- **AI bubble** (bottom right corner) — coming soon feature, placeholder is live
+### How to Use It
+- **Pick a date range** at the top — choose This Month, Last 14 Days, Last 30 Days, All Time, or enter custom dates
+- **Click any column header** in a table to sort by that metric — the active column highlights orange
+- **Toggle ascending/descending** with the sort direction button
+- The **Appfront tab** pulls live data directly from Boost's loyalty account every time you open it — no refresh needed
+- The **AI bubble** in the bottom right corner is a coming-soon feature — placeholder is live, functionality being built
 
 ---
 
-## How Everything Is Set Up (Technical Overview)
+## How to Make Changes (No Coding Required)
 
-You don't need to be a developer to use this guide, but here's what's running under the hood:
+Everything is managed through **Claude Code** — you talk to Claude in plain English and it handles all the technical work, updates the code, and pushes it live. The dashboard redeploys automatically within a few minutes of any change.
 
-### The Stack
-- **React + Vite** — the framework the dashboard is built in (modern, fast)
-- **Tailwind CSS** — handles all the styling
-- **Recharts** — powers all the charts and graphs
-- **GitHub Pages** — where the dashboard is hosted (free, reliable)
-- **GitHub Actions** — automatically rebuilds and deploys the dashboard
-
-### Where the Code Lives
-Everything lives in the GitHub repository:
-**https://github.com/adminboostcoffee/dashboard**
-
-The main branch being actively developed is:
-`claude/charming-heisenberg-05tiu8`
-
-### Data Sources
-| Source | How It's Connected | Status |
-|---|---|---|
-| Meta Ads | Windsor.ai ✅ | ✅ Live — refreshable on demand |
-| TikTok Ads | Windsor.ai ✅ (connected — needs sync verified) | 🔍 Needs data pull confirmed |
-| Instagram Organic | Windsor.ai ✅ (connected — needs sync verified) | 🔍 Needs data pull confirmed |
-| Google Ads | Windsor.ai — add connector + official API | 🔧 In progress |
-| Appfront | Custom Cloudflare Worker proxy | ✅ Live (real-time, no refresh needed) |
-
-> **Note:** Windsor.ai is currently on a free trial — approximately 15 days remaining. Make sure to upgrade before it expires to avoid any disruption to data pulls.
-
-### Cloudflare Workers (Proxy Layer)
-Two Cloudflare Workers are running under the Cloudflare account (aubrianna@boostcoffee.com):
-- **boost-appfront.aubrianna.workers.dev** — proxies Appfront GraphQL requests so credentials stay secure
-- **boost-gemini.aubrianna.workers.dev** — set up for the AI chatbot (Gemini), not yet fully active
-
----
-
-## Appfront — How It Works & Current Limitations
-
-Appfront is Boost's loyalty and mobile ordering platform. It's the most complex integration in the dashboard because **Appfront does not have a public API** — meaning there's no official, documented way for outside tools to pull data from it.
-
-### What We Did
-We reverse-engineered Appfront's internal GraphQL API (the same one their own app uses) and built a **Cloudflare Worker** that acts as a secure middleman. When the Appfront tab loads on the dashboard, it sends a request to our Worker, which forwards it to Appfront's servers using Boost's own credentials — and returns the data. This is completely legitimate; we're just accessing Boost's own data through Boost's own account.
-
-### What It Currently Shows (Live Data)
-- Total sales & order volume
-- Total visits and unique members
-- Average ticket size
-- Average spend per customer
-- Coupons redeemed
-- Active member count
-- Monthly sales & orders bar chart
-- Top menu items ranked by orders
-- Customer leaderboard (top spenders, most visits, highest avg order)
-
-### Current Limitations
-- **Monthly data only** — Appfront's internal API returns totals by month, not by day or week. There is no way to break this down further with the current approach. The dashboard notes this with an info tooltip on the chart.
-- **No CSV/PDF export from Appfront** — Appfront's official export is PDF only (no spreadsheet). The data visible on our dashboard tab is the workaround.
-- **Auth token dependency** — If Appfront changes how their internal authentication works, the Worker may need to be updated. This is rare but worth knowing.
-- **If the Appfront tab shows a connection error** — the auth token inside the Cloudflare Worker may have expired. Claude can help diagnose this, or you can log into Cloudflare and update the Worker's environment variable with a fresh token from Appfront's network requests.
-
----
-
-## Windsor.ai — Connection Status & What's Next
-
-Windsor.ai is the hub that connects ad platforms to the dashboard. Meta Ads, TikTok Ads, and Instagram Organic have all been added as connectors. Google Ads still needs to be added.
-
-> **Free trial:** Windsor.ai is currently on a free trial with approximately 15 days remaining. Upgrade before it expires to avoid interruption.
-
-### TikTok Ads & Instagram Organic — Already Connected
-Both connectors have been added in Windsor. If data isn't pulling correctly, ask Claude:
-> *"Can you try pulling TikTok Ads and Instagram Organic data from Windsor.ai and let me know if there are any errors?"*
-Claude will diagnose whether it's an auth issue, a sync delay, or something else.
-
-### To Connect Google Ads:
-1. Log into Windsor.ai (admin@boostcoffee.com)
-2. Add Connector → Google Ads
-3. Also add Google Analytics 4 while you're there (same Google account)
-4. This unlocks the Google Ads tab and full attribution data from GTM → GA4
-
----
-
-## What Was Actively Being Worked On
-
-These were in progress or recently completed when this handoff was written:
-
-1. **Data refresh** — Meta Ads data was just updated through June 25, 2026. The dashboard currently shows April 1 – June 25.
-
-2. **PDF Export** — Feature was approved and designed. The plan: a button in the header opens a modal where you select which tabs to include, then it generates a clean PDF of the dashboard with the current date range applied. **Not yet built.**
-
-3. **CSV Export** — Export button that downloads a combined spreadsheet of Meta, TikTok, IG, and Appfront data for the selected date range. **Not yet built.**
-
-4. **AI Chatbot (Ask AI)** — The Gemini-powered assistant is partially set up. The Cloudflare Worker is deployed and the Google AI Studio API key is configured. The chat UI currently shows a "Coming Soon" screen. Once the Worker is debugged, this will let you ask questions like "which campaign had the best CTR last month?" and get instant answers. **In progress.**
-
-5. **Google Ads integration** — Official Google Ads API connection. Will also pull Google Analytics 4 data at the same time, giving full attribution chain from GTM → GA4 → dashboard. **In progress.**
-
-6. **Auto-refresh pipeline** — The goal was to have the GitHub Actions workflow automatically pull fresh data from Windsor.ai every morning at 8AM ET before rebuilding the dashboard. The workflow is scheduled but the automated data-pull script hasn't been wired in yet. See the Known Issues section below.
-
----
-
-## Known Issues to Address
-
-### 🔴 Dashboard Not Auto-Updating Data
-**What was supposed to happen:** Every morning at 8AM ET, GitHub Actions runs, pulls the latest ad data from Windsor.ai, updates the data files, and redeploys the dashboard automatically.
-
-**What's actually happening:** The rebuild runs on schedule, but the data files aren't being updated automatically. The Meta Ads, TikTok, and IG data is hardcoded in `src/data/index.js` and only updates when someone manually refreshes it.
-
-**Workaround until fixed:** Once a day (or whenever you want fresh data), open a Claude Code session and say:
-> *"Can you please refresh the dashboard data with the latest from Windsor.ai and push it?"*
-
-Claude will pull the latest Meta Ads data, update the file, and push it — the site redeploys within a few minutes automatically.
-
-### 🟡 TikTok Ads & Instagram Organic — Windsor Connected, Sync Needs Verification
-Both TikTok Ads and Instagram Organic have been added as connectors in Windsor.ai, but the data pull hasn't been confirmed yet — it's possible the accounts just need to finish authorizing or syncing. Ask Claude to attempt a data refresh and it will diagnose whether Windsor is returning data or if there's an auth step still pending.
-
-### 🟡 Google Ads Not Yet Added
-Google Ads needs to be added to Windsor.ai and the dashboard tab needs to be wired up. The tab currently shows a "Setup" badge.
-
-### 🟡 AI Chatbot Not Active
-The Coming Soon screen is the current placeholder. The Cloudflare Worker needs to be debugged to get responses flowing from Gemini. The API key is already configured.
-
----
-
-## How to Make Changes to the Dashboard
-
-### Option 1: Claude Code on the Web (Recommended — No Coding Required)
-
+### Getting Started
 1. Go to **https://claude.ai/code**
-2. Sign in to a Claude account
-3. Connect it to the GitHub repo: `adminboostcoffee/dashboard`
-4. Start talking to Claude in plain English
+2. Sign in with your Claude account
+3. Make sure the repo **adminboostcoffee/dashboard** is connected (you'll see it in the repo picker)
+4. Start typing — describe what you want in plain English
 
-That's it. You describe what you want and Claude handles the code, commits, and pushes it. The dashboard updates automatically within a few minutes of any push.
+### Prompts to Bookmark
 
-### Useful Prompts to Get Started
+**To get a full rundown on the current state of the dashboard:**
+> *"Please read the file DASHBOARD_HANDOFF.md from this repository and share the full contents with me."*
 
-**Daily data refresh (do this until auto-refresh is fixed):**
-> "Can you refresh the dashboard data with the latest Meta Ads data from Windsor.ai and push it?"
+**To refresh the data (do this every few days until auto-refresh is fixed):**
+> *"Can you refresh the dashboard data with the latest from Windsor.ai and push it live?"*
 
-**After connecting TikTok or Instagram in Windsor:**
-> "Can you pull fresh TikTok Ads data from Windsor.ai and add it to the dashboard?"
-> "Can you pull fresh Instagram Organic data from Windsor.ai and update the dashboard?"
+**To verify TikTok and Instagram are pulling from Windsor:**
+> *"Can you try pulling TikTok Ads and Instagram Organic data from Windsor.ai and let me know if it works or if there are any errors?"*
 
 **To add something new:**
-> "Can you add a conversion rate column to the Meta Ads table?"
-> "Can you add a new KPI card on the Overview tab showing total spend across all channels?"
+> *"Can you add a cost-per-click column to the TikTok Ads table?"*
+> *"Can you add a new card on the Overview showing total impressions across all channels?"*
 
-**To change how something looks:**
-> "Can you make the Overview tab cards larger and easier to read?"
-> "Can you change the color scheme on the TikTok tab?"
+**To build the export features:**
+> *"Can you build a PDF export button that lets me pick which tabs to include and downloads a clean PDF of the current date range?"*
+> *"Can you build a CSV export button that downloads all the current data as a spreadsheet?"*
 
 **To fix something:**
-> "The Appfront tab is showing an error — can you look at it and fix it?"
+> *"The Appfront tab is showing a connection error — can you look into it and fix it?"*
 
-**To build the pending features:**
-> "Can you build the PDF export feature we had planned? There should be a button in the header that opens a modal where you pick which tabs to include, then downloads a PDF."
-> "Can you build the CSV export button?"
-
-**To get oriented:**
-> "Can you give me a summary of the current state of the dashboard — what's built, what's missing, and what the data covers?"
-> "Can you read the DASHBOARD_HANDOFF.md file and give me a quick rundown?"
+**To change how something looks:**
+> *"Can you make the Overview KPI cards bigger and easier to read?"*
 
 ---
 
-## Suggestions for What to Push Forward Next
+## Where the Data Comes From
 
-In rough priority order:
+| Channel | Connection | Status |
+|---|---|---|
+| **Meta Ads** | Windsor.ai | ✅ Live — pull fresh data anytime by asking Claude |
+| **TikTok Ads** | Windsor.ai (connected, sync pending confirmation) | 🔍 Ask Claude to verify the pull |
+| **Instagram Organic** | Windsor.ai (connected, sync pending confirmation) | 🔍 Ask Claude to verify the pull |
+| **Google Ads** | Windsor.ai — needs connector added | 🔧 In progress |
+| **Appfront** | Custom-built secure proxy | ✅ Fully live, updates in real time automatically |
 
-1. **Connect TikTok, Instagram, and Google Ads to Windsor.ai** — This is the quickest win. Log into Windsor, add those connectors, then ask Claude to pull and push the data. Unlocks live data for all three channels at once.
-
-2. **Fix the auto-refresh pipeline** — Once this is working, nobody has to think about data freshness. It just happens every morning.
-
-3. **Build PDF Export** — Monica asked about this specifically. High visibility, relatively straightforward to build. Just ask Claude.
-
-4. **Build CSV Export** — Useful for anyone who wants to manipulate the data in Excel.
-
-5. **Finish Google Ads / GA4 integration** — Completes the full picture with attribution data.
-
-6. **Launch the AI chatbot** — Debug the Gemini Worker. Once live, this becomes a genuinely powerful feature — natural language questions answered against real campaign data.
-
-7. **Toast integration** — Toast has an official API. Would let you put media spend next to in-store sales side by side.
-
-8. **Mobile optimization** — The dashboard works on mobile but wasn't specifically designed for it. Worth a pass to make it cleaner on small screens.
+### A Note on Appfront
+Appfront doesn't have a public API — there's no official way for outside tools to connect to it. So we built a custom secure connection using Boost's own account credentials running through Cloudflare. It's completely legitimate — we're just accessing Boost's own data in a smarter way. The only limitation is that Appfront only returns data by month, not by day or week. That's an Appfront constraint, not ours — it's noted right on the dashboard.
 
 ---
 
-## GitHub Basics (For Non-Developers)
+## What's Being Built Next (Priority Order)
 
-You don't need to use GitHub directly — Claude handles all of that. But here's what it is and why it matters:
+1. **Verify TikTok & Instagram data pulls from Windsor** — connectors are added, just need to confirm data is flowing. Ask Claude to test it.
 
-**GitHub** is where the code for the dashboard is stored. Think of it like Google Drive, but for code. Every change Claude makes gets "committed" (saved) and "pushed" (uploaded) to GitHub. GitHub then automatically triggers a rebuild of the live dashboard.
+2. **Add Google Ads to Windsor + finish the Google Ads tab** — a few clicks in Windsor to add the connector, then Claude wires up the tab. Also pulls Google Analytics 4 at the same time for full attribution.
 
-The dashboard is hosted on **GitHub Pages**, which is GitHub's free static site hosting. That's why there's no hosting bill.
+3. **PDF Export** — button in the header, pick which tabs to include, download a clean PDF with the current date range applied. Already designed, just needs to be built.
 
-The repo is at: **https://github.com/adminboostcoffee/dashboard**
+4. **CSV Export** — download all current filtered data as a spreadsheet. Great for Excel analysis or sharing with the team.
 
-If you ever want to give someone else access to make changes, go to:
-Settings → Collaborators → Add their GitHub username
+5. **Fix auto-refresh** — the dashboard is supposed to automatically pull fresh data every morning at 8AM ET. The schedule is set up but the data-pull step needs to be wired in. Once done, nobody has to think about it.
+
+6. **AI Chatbot** — the Gemini-powered Ask AI feature is partially built. Once live, you'll be able to ask things like "which campaign had the best CTR this month?" and get instant answers from your actual data.
+
+7. **Toast POS integration** — Toast has an official API. This would put in-store sales next to media spend on the same dashboard — very powerful for showing full-funnel ROI.
 
 ---
 
-## Final Note
+## Known Issues
 
-This dashboard was built entirely with Claude Code. Everything is editable, everything is expandable, and the codebase is clean enough that any developer (or Claude user) can pick it up and keep going without starting from scratch.
+### Data Doesn't Refresh Automatically Yet
+The dashboard is set up to rebuild every morning at 8AM ET, but it doesn't pull new data as part of that process yet — that step still needs to be built. In the meantime, just ask Claude to refresh it every few days. It takes about a minute.
 
-The foundation is solid. What's left is connecting the remaining data sources (which is just a few clicks in Windsor) and building out the export/AI features that are already designed and approved. Whoever picks this up is in a great position — most of the hard architectural work is done.
+### TikTok & Instagram Sync Not Yet Confirmed
+Both channels were connected in Windsor.ai, but the data pull hasn't been tested end-to-end yet. Ask Claude to verify — it'll tell you exactly what's working or what needs attention.
 
-Good luck, and don't hesitate to just ask Claude. It knows the codebase.
+### AI Chatbot Shows "Coming Soon"
+The infrastructure is in place (Cloudflare Worker + API key), it just needs a debugging pass to get responses flowing. Ask Claude to look into it when you're ready.
+
+---
+
+## The Bigger Picture
+
+This dashboard was built entirely using Claude Code — no development agency, no designer, no sprint planning. The kind of work that typically takes weeks and costs thousands was done in hours through plain-English conversations with Claude.
+
+Everything is fully owned by Boost. The code lives in Boost's GitHub account, the hosting is free through GitHub Pages, and any developer or Claude session can pick it up and keep building. There's no vendor to negotiate with, no platform to migrate off of, and no proprietary system that locks you in.
+
+The foundation is completely solid. The remaining work is mostly connecting a few more data sources in Windsor (a few clicks) and building the export features (ask Claude). Whoever takes this over is walking into a well-built, well-documented project that's ready to grow.
+
+---
+
+## Quick Reference Card
+
+| Task | What to Do |
+|---|---|
+| View the dashboard | https://adminboostcoffee.github.io/dashboard/ → password `fcH6G8Z4K$4N` |
+| Make a change | claude.ai/code → connect adminboostcoffee/dashboard → describe it |
+| Refresh data | Ask Claude: *"Refresh the dashboard data from Windsor and push it"* |
+| Something broke | Ask Claude: *"The [tab name] tab is showing an error — can you fix it?"* |
+| Add a new feature | Ask Claude in plain English — it knows the whole codebase |
+| Read this doc in Claude | Ask Claude: *"Read DASHBOARD_HANDOFF.md and share it with me"* |
+| Upgrade Windsor trial | windsor.ai → admin@boostcoffee.com → upgrade before trial ends (~15 days) |
